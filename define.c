@@ -11,16 +11,15 @@
   tuple(Nb,   1, int,      5,  "none")
 
 
-#define GEN_STRUCT(var,size,type,dft,unit)		type var[size];
 
 struct s
 {
+# define GEN_STRUCT(var,size,type,dft,unit)		type var[size];
   LISTE(GEN_STRUCT)
 };
 
 
 #define GEN_PARAM(var,size,type,dft,unit)		type var,
-
 void toto (struct s *s, LISTE(GEN_PARAM) int end)
 {
 # define GEN_AFFECT(var,size,type,dft,unit)		{ for(int i=0; i<size; i++) s->var[i] = var; }
@@ -34,8 +33,9 @@ void toto (struct s *s, LISTE(GEN_PARAM) int end)
 int main (int argc, char *argv[])
 {
   struct s s;
+  
 # define GEN_CALL(var,size,type,dft,unit)		dft,
   toto (&s, LISTE(GEN_CALL) 1234);
-  
+
   return 0;
 }
