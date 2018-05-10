@@ -1,11 +1,13 @@
 
 CFLAGS	= -std=c99
 
-all: define
+all: cpreproclist
 
-clean:; rm define
+clean:
+	rm cpreproclist
 
-test: define
-	./define aa bbb ccc
+test: cpreproclist
+	./cpreproclist aa bbb ccc
 
-define: define.c
+cpreproclist: cpreproclist.c
+
