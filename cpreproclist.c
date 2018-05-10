@@ -22,6 +22,8 @@ struct s
 #define GEN_PARAM(var,size,type,dft,unit)		type var,
 void foo (struct s *s, MYLIST(GEN_PARAM) int end)
 {
+  (void) end;   // Arg not used
+
 # define GEN_AFFECT(var,size,type,dft,unit)		{ for(int i=0; i<size; i++) s->var[i] = var; }
   MYLIST(GEN_AFFECT);
    
@@ -32,6 +34,9 @@ void foo (struct s *s, MYLIST(GEN_PARAM) int end)
 
 int main (int argc, char *argv[])
 {
+  (void) argc;  // Arg not used
+  (void) argv;  // Arg not used
+
   struct s s;
   
 # define GEN_CALL(var,size,type,dft,unit)		dft,

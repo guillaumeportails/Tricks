@@ -1,5 +1,5 @@
 
-CFLAGS	= -std=c99
+CFLAGS	= -std=c99 -Wall -Wextra
 
 all: cpreproclist
 
