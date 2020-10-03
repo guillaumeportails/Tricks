@@ -1,13 +1,17 @@
 
 CFLAGS	= -std=c99 -Wall -Wextra
 
-all: cpreproclist
+all: cpreproclist smc
 
 clean:
-	rm cpreproclist
+	rm -f cpreproclist smc
 
-test: cpreproclist
+test: cpreproclist smc
 	./cpreproclist aa bbb ccc
+	./smc
 
 cpreproclist: cpreproclist.c
+
+smc: smc.c
+	$(CC) -O2 -fPIC -o $@ $+
 
