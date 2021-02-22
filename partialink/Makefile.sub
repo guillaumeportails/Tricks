@@ -1,0 +1,38 @@
+
+
+LIB ?= FOO
+
+SRCC = $(wildcard *.c)
+OBJS = $(SRCC:.c=.o)
+
+CFLAGS := -g2 -I.
+
+# Ceci est indispensable pour faire fonctionner deux .so charges par ld.so
+# et colisionnant des symboles "internes". En employant dlopen(), on peut
+# s'en passer
+CFLAGS += -fvisibility=hidden -DHAS_ATTRIB
+
+all: show lib$(LIB).a lib$(LIB).so lib$(LIB).o
+
+
+# Impossible : collision
+
+lib$(LIB).a: $(OBJS)
+	$(AR) rv $@ $+
+
+
+# Le retain n'est pas indispensable a la reussite de deux dlopen() de .so
+# contenant un meme symbole (via RTLD_DEEPBIND). Mais il anonymise la lib.
+# Realisable aussi via -fvisibility=hidden ?
+
+lib$(LIB).so: $(OBJS)
+	$(LD) -o $@ -shared $+
+	#$(LD) -o $@ -shared --retain-symbols-file retain $+
+
+
+lib$(LIB).o: $(OBJS)
+	$(LD) -o $@ -r --retain-symbols-file retain $+ 
+
+
+show:
+	@echo "$(PWD): $(SRCC)"
