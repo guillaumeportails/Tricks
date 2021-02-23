@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Les lib*.so sont dans le meme repertoire que l'exe
+# Alternative avec direxe=$(dirname $(which $1))
+#       LD_LIBRARY_PATH=$direxe:$LD_LIBRARY_PATH program [args]
+#       /lib/ld-linux.so.* --inhibit-cache --list --library-path $direxe program [args]
+#       gcc -Wl,-rpath,'$ORIGIN'
+
+export DT_RUNPATH=$(dirname $(which $1))
+exec $*
+
+

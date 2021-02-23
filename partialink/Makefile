@@ -39,11 +39,30 @@ main: main.o $(wildcard lib[TP]/[tp][ou][tp][ou].o lib[TP]/internal.o)
 maino: main.o $(wildcard lib[TP]/lib[TP].o)
 	-$(CC) -o $@ $+
 
+# link statique
 mains: main.o $(wildcard lib[TP]/lib[TP].a)
 	-$(CC) -o $@ $+
 
+# le chemin des lib.so est impose dans l'exec
+# man ld.so :
+#   When  resolving  shared object dependencies, the dynamic linker first inspects each depen‐
+#   dency string to see if it contains a slash (this can occur if  a  shared  object  pathname
+#   containing  slashes was specified at link time).  If a slash is found, then the dependency
+#   string is interpreted as a (relative or absolute)  pathname,  and  the  shared  object  is
+#   loaded using that pathname.
 maind: main.o  $(wildcard lib[TP]/lib[TP].so)
 	-$(CC) -o $@ $+
+	strings -a $@ | grep lib[PT].so
+	readelf -d $@ | grep Shared
+
+# link est dynamique par defaut, le rpath permet de trouver les lib.so sans LD_LIBRARY_PATH
+# cf man ld.so :                             cf LD_DEBUG
+#    cas "no slash in lib.so names"
+#    Rpath token expansion
+mainw: main.o  $(wildcard lib[TP]/lib[TP].so)
+	-$(CC) -o $@ -Wl,-rpath,'$$ORIGIN/libP',-rpath,'$$ORIGIN/libT' -LlibP -LlibT main.o -lP -lT
+	strings -a $@ | grep lib[PT].so
+	readelf -d $@ | grep Shared
 
 mainh: hand.o  $(wildcard lib[TP]/lib[TP].so)
 	-$(CC) -o $@ $+ -ldl

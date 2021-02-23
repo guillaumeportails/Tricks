@@ -1,0 +1,10 @@
+
+# in-tree build
+*.o
+*.so
+*.a
+partialink/main?
+
+# vim
+.*.sw[po]
+
