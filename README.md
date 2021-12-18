@@ -1,6 +1,6 @@
 # List of programming tricks
 
-- Self Modifying Code
+- Self Modifying Code (trap for valgrind)
 - Partial link inside a lib.so, eliminating internal symbols
 - Iterate over arguments of a variadic macro
 - C preprocessor abuse (multiple snippets from a 'database')

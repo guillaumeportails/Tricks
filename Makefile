@@ -11,8 +11,9 @@ all: test
 
 clean:
 	rm -f cpreproclist smc callgrind.out.* cforeach.[io]
+	make -C gdbpy clean
 
-test: cpreproclist smc cforeach
+test: cpreproclist smc cforeach gdbpyNOW
 	./cpreproclist aa bbb ccc
 	./smc
 	valgrind --tool=callgrind --smc-check=all ./smc
@@ -57,3 +58,8 @@ cforeach2: cforeach.cc
 	clang++ -std=c++98 -Wall -Wextra -c -DNDEBUG $<
 	clang++ -std=c++11 -Wall -Wextra -c -UNDEBUG $<
 	clang++ -std=c++11 -Wall -Wextra -c -DNDEBUG $<
+
+gdbpyNOW: 
+	make -C gdbpy
+
+
